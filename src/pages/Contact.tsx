@@ -58,7 +58,7 @@ export function Contact() {
       return;
     }
 
-    fetch("http://localhost:8080/contact", {
+    fetch("http://musischool-api-production.up.railway.app:8080/contact", {
       method: "POST",
       body: JSON.stringify({ ...data, token }),
       headers: {
