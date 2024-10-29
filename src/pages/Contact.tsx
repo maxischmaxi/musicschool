@@ -58,7 +58,7 @@ export function Contact() {
       return;
     }
 
-    fetch("https://musischool-api-production.up.railway.app:8080/contact", {
+    fetch(`${import.meta.env.VITE_API_GATEWAY}/contact`, {
       method: "POST",
       body: JSON.stringify({ ...data, token }),
       headers: {

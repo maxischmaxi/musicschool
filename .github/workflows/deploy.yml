@@ -19,6 +19,9 @@ jobs:
           node-version: 20
 
       - name: Install dependencies and build
+        env:
+          VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
+          VITE_API_GATEAY: ${{ secrets.VITE_API_GATEAY }}
         run: |
           npm install
           npm run build
@@ -31,5 +34,19 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           source: 'dist/'
-          target: 'musicschool-cml/test'
+          target: 'musicschool-cml/deployment'
 
+      - name: Move files around
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd musicschool-cml
+            mkdir ${{ github.sha }}
+            mv deployment/dist/* ${{ github.sha }}
+            cp -r ${{ github.sha }}/* .
+            rm -rf deployment
+            rm -rf ${{ github.sha }}
