@@ -58,7 +58,7 @@ export function Contact() {
       return;
     }
 
-    fetch("http://musischool-api-production.up.railway.app:8080/contact", {
+    fetch("https://musischool-api-production.up.railway.app:8080/contact", {
       method: "POST",
       body: JSON.stringify({ ...data, token }),
       headers: {
@@ -133,8 +133,8 @@ export function Contact() {
             )}
           </div>
           <ReCAPTCHA
-            // sitekey="6Ldw6PEpAAAAAEDCfeRIUO4c2uJL2czkpdp8PdcE"
-            sitekey="6Ldh6PEpAAAAADnfvHzITvcKkx44zN3GLO6z2DCE"
+            sitekey="6Ldw6PEpAAAAAEDCfeRIUO4c2uJL2czkpdp8PdcE"
+            // sitekey="6Ldh6PEpAAAAADnfvHzITvcKkx44zN3GLO6z2DCE"
             ref={captchaRef}
           />
           <div className="flex">
