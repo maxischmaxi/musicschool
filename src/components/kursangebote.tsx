@@ -102,8 +102,6 @@ export function Kursangebote() {
         angebot="Blockflöte"
         image={floete}
       />
-      <Kursangebot background="#FBEBCE" angebot="Ukulele" />
-      <Kursangebot background="rgb(252, 243, 226)" angebot="Gesang" />
     </section>
   );
 }
