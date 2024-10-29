@@ -133,8 +133,7 @@ export function Contact() {
             )}
           </div>
           <ReCAPTCHA
-            sitekey="6Ldw6PEpAAAAAEDCfeRIUO4c2uJL2czkpdp8PdcE"
-            // sitekey="6Ldh6PEpAAAAADnfvHzITvcKkx44zN3GLO6z2DCE"
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
             ref={captchaRef}
           />
           <div className="flex">
