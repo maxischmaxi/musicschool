@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies and build
         env:
           VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
-          VITE_API_GATEAY: ${{ secrets.VITE_API_GATEAY }}
+          VITE_API_GATEWAY: ${{ secrets.VITE_API_GATEWAY }}
         run: |
           npm install
           npm run build

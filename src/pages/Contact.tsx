@@ -50,8 +50,6 @@ export function Contact() {
   });
 
   const submit = (data: z.infer<KontaktSchema>): void => {
-    console.log(import.meta.env.VITE_API_GATEWAY);
-
     if (!captchaRef.current) {
       return;
     }
