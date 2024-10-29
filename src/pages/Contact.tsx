@@ -30,6 +30,8 @@ type KontaktSchema = ZodObject<{
   message: ZodString;
 }>;
 
+const apiGateway = import.meta.env.VITE_API_GATEWAY;
+
 export function Contact() {
   const captchaRef = useRef<ReCAPTCHA>(null);
   const [successModal, setSuccessModal] = useState(false);
@@ -48,6 +50,8 @@ export function Contact() {
   });
 
   const submit = (data: z.infer<KontaktSchema>): void => {
+    console.log(import.meta.env.VITE_API_GATEWAY);
+
     if (!captchaRef.current) {
       return;
     }
@@ -58,7 +62,7 @@ export function Contact() {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_GATEWAY}/contact`, {
+    fetch(`${apiGateway}/contact`, {
       method: "POST",
       body: JSON.stringify({ ...data, token }),
       headers: {
