@@ -100,7 +100,7 @@ export function Preise() {
           pdf={"vertrag_66.pdf"}
         />
         <Preis
-          minutes={60}
+          minutes={45}
           title="freie Vereinbarung"
           description="Der Unterricht wird als 10-stündige Lektion zu jeweils 45 Minuten bei freier Vereinbarung des Zeitpunktes in Absprache mit der Lehrkraft erteilt."
           aufnahmeGebuehr={20}
