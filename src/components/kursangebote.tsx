@@ -5,6 +5,7 @@ import schlagzeug from "../assets/schlagzeug.png";
 import bass from "../assets/bass.png";
 import klavier from "../assets/klavier.png";
 import klavierGelb from "../assets/klavier-gelb-min_2x.png";
+import classNames from "classnames";
 
 type KursangebotProps = {
   background: string;
@@ -15,17 +16,22 @@ type KursangebotProps = {
 function Kursangebot(props: KursangebotProps) {
   const className =
     props.image === undefined
-      ? "h-[200px] md:h-[300px]"
+      ? classNames("h-[200px] md:h-[300px]", !props.image && "h-auto md:h-auto")
       : "h-[500px] md:h-[600px]";
 
   const contentClassName = props.image === undefined ? "mt-0" : "mt-72 md:mt-0";
+
   return (
     <div
       style={{ backgroundColor: props.background }}
       className="text-theme-text py-12 md:py-24"
     >
       <div
-        className={`flex mt-8 md:mt-0 flex-row container mx-auto max-w-5xl items-center flex-nowrap w-full relative justify-end ${className}`}
+        className={classNames(
+          "flex mt-8 md:mt-0 flex-row container mx-auto max-w-5xl items-center flex-nowrap w-full relative justify-end",
+          className,
+          !props.image && "flex-col",
+        )}
       >
         {props.image !== undefined && (
           <>
@@ -47,20 +53,29 @@ function Kursangebot(props: KursangebotProps) {
           </>
         )}
         <div
-          className={`flex gap-4 z-10 flex-col w-full md:w-auto ${contentClassName}`}
+          className={classNames(
+            "flex gap-4 z-10 flex-col w-full md:w-auto",
+            !props.image && "items-center",
+            contentClassName,
+          )}
         >
-          <p className="text-3xl font-bold text-center md:text-left">
+          <p
+            className={classNames(
+              "text-3xl font-bold text-center md:text-left",
+              !props.image && "text-center text-5xl",
+            )}
+          >
             {props.angebot}
           </p>
           <div className="gap-4 flex flex-row flex-nowrap px-8 md:px-0">
             <a
-              className="bg-dark-red w-full text-center text-white py-2 px-4 rounded-md hover:underline"
+              className="bg-dark-red w-full text-center text-white py-2 px-4 rounded-md font-bold text-sm"
               href="/#preise"
             >
               Jetzt anmelden
             </a>
             <a
-              className="bg-theme w-full text-center text-white py-2 px-3 rounded-md hover:underline"
+              className="bg-theme w-full text-center text-white py-2 px-3 rounded-md items-center flex flex-row flex-nowrap justify-center font-bold text-sm"
               href="/about"
             >
               Deine Lehrer
@@ -102,6 +117,8 @@ export function Kursangebote() {
         angebot="Blockflöte"
         image={floete}
       />
+      <Kursangebot background="#FBEBCE" angebot="Ukulele" />
+      <Kursangebot background="rgb(252, 243, 226)" angebot="Gesang" />
     </section>
   );
 }

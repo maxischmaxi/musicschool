@@ -55,6 +55,16 @@ export function Header() {
               Kontakt
             </a>
           </li>
+          <li>
+            <a
+              className="hover:underline"
+              href="/anmeldung"
+              aria-label="Anmeldeformular"
+              title="Anmeldeformular"
+            >
+              Anmeldung
+            </a>
+          </li>
         </ul>
         <a
           className="hover:underline whitespace-nowrap"

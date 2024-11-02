@@ -14,6 +14,7 @@ import { Privacy } from "./pages/Privacy.tsx";
 import { Contact } from "./pages/Contact.tsx";
 import { About } from "./pages/About.tsx";
 import { Courses } from "./pages/Courses.tsx";
+import { Anmeldung } from "./pages/Anmeldung.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,8 @@ const router = createBrowserRouter(
       <Route path="/contact" element={<Contact />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
+      <Route path="/anmeldung" element={<Anmeldung />} />
+      <Route path="*" element={<h1>404</h1>} />
     </Route>,
   ),
 );
