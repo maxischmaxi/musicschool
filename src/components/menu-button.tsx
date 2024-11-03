@@ -54,6 +54,11 @@ export function MenuButton() {
                       Kontakt
                     </a>
                   </li>
+                  <li className="py-2">
+                    <a onClick={() => setShow(false)} href="/anmeldung">
+                      Anmeldung
+                    </a>
+                  </li>
                 </ul>
                 <ul className="mt-auto flex flex-col gap-4">
                   <li>
