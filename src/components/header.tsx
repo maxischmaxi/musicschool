@@ -16,11 +16,15 @@ export function Header() {
         title="Zur Startseite"
         className="flex md:hidden mr-auto pl-8"
       >
-        <motion.img src={logo} alt="MusicSchool CML Logo" className="h-8" />
+        <motion.img
+          src={logo}
+          alt="MusicSchool CML Logo"
+          className="h-8 will-change-auto"
+        />
       </a>
       <motion.nav
         style={{ paddingTop: p, paddingBottom: p }}
-        className="hidden md:flex container px-4 md:px-8 text-theme-text font-semibold max-w-5xl text-sm mx-auto flex-row flex-nowrap"
+        className="hidden md:flex container will-change-auto px-4 md:px-8 text-theme-text font-semibold max-w-5xl text-sm mx-auto flex-row flex-nowrap"
       >
         <a
           href="/"
@@ -32,6 +36,7 @@ export function Header() {
             src={logo}
             style={{ height: h }}
             alt="MusicSchool CML Logo"
+            className="will-change-auto"
             width={242}
             height={105}
           />

@@ -83,7 +83,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                       }}
                       disabled={field.disabled}
                       className={classNames(
-                        "h-48 w-full relative flex items-center justify-center rounded-2xl overflow-hidden",
+                        "will-change-auto h-48 w-full relative flex items-center justify-center rounded-2xl overflow-hidden",
                         field.value === l.value
                           ? "border-4 border-theme"
                           : "border-4 border-transparent",
