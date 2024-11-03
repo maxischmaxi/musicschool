@@ -3,6 +3,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodObject, ZodString } from "zod";
+import { apiGateway } from "../lib/definitions";
 
 const kontaktSchema = z.object({
   email: z
@@ -29,8 +30,6 @@ type KontaktSchema = ZodObject<{
   name: ZodString;
   message: ZodString;
 }>;
-
-const apiGateway = import.meta.env.VITE_API_GATEWAY;
 
 export function Contact() {
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -69,12 +68,10 @@ export function Contact() {
     })
       .then(() => {
         setSuccessModal(true);
+        reset();
       })
       .catch(() => {
         setErrorModal(true);
-      })
-      .finally(() => {
-        reset();
       });
   };
 

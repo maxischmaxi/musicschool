@@ -1,201 +1,215 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import ReCAPTCHA from "react-google-recaptcha";
 import { useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
-
-enum Instrument {
-  KEYBOARD = "keyboard",
-  KLAVIER = "klavier",
-  PIANO = "piano",
-  GITARRE = "gitarre",
-  BASS = "bass",
-  SCHLAGZEUG = "schlagzeug",
-  BLOCKFLOETE = "blockfloete",
-  UKULELE = "ukulele",
-  GESANG = "gesang",
-}
-
-enum Lehrer {
-  JANA = "jana",
-  CHRISTOPHER = "christopher",
-  MARTIN = "martin",
-  LUKAS = "lukas",
-}
-
-const available_lehrer = [
-  {
-    instrument: Instrument.KEYBOARD,
-    lehrer: [Lehrer.JANA, Lehrer.CHRISTOPHER, Lehrer.LUKAS],
-  },
-  {
-    instrument: Instrument.PIANO,
-    lehrer: [Lehrer.JANA, Lehrer.CHRISTOPHER, Lehrer.LUKAS],
-  },
-  {
-    instrument: Instrument.KLAVIER,
-    lehrer: [Lehrer.JANA, Lehrer.CHRISTOPHER, Lehrer.LUKAS],
-  },
-  {
-    instrument: Instrument.GITARRE,
-    lehrer: [Lehrer.MARTIN, Lehrer.CHRISTOPHER],
-  },
-  {
-    instrument: Instrument.BASS,
-    lehrer: [Lehrer.MARTIN, Lehrer.CHRISTOPHER],
-  },
-  {
-    instrument: Instrument.UKULELE,
-    lehrer: [Lehrer.MARTIN],
-  },
-  {
-    instrument: Instrument.SCHLAGZEUG,
-    lehrer: [Lehrer.CHRISTOPHER],
-  },
-  {
-    instrument: Instrument.BLOCKFLOETE,
-    lehrer: [Lehrer.CHRISTOPHER],
-  },
-  {
-    instrument: Instrument.GESANG,
-    lehrer: [Lehrer.MARTIN],
-  },
-];
-
-const anmeldung = z.object({
-  instrument: z.nativeEnum(Instrument),
-  lehrer: z.nativeEnum(Lehrer),
-  schlueler_name: z.string(),
-  geburtsdatum: z.string(),
-  wohnort: z.string(),
-  plz: z.string(),
-  strasse: z.string(),
-  email: z.string().email(),
-  telefon: z.string(),
-  erziehungsberechtigte: z.string(),
-});
+import {
+  Anmeldung as AnmeldungType,
+  Lehrer,
+  anmeldung,
+  apiGateway,
+} from "../lib/definitions";
+import { Input } from "../components/input";
+import { InstrumentSelect } from "../components/instrument-select";
+import { LehrerSelect } from "../components/lehrer-select";
+import dayjs from "dayjs";
+import { VertragSelect } from "../components/vertrag-select";
+import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
+import { useRef, useState } from "react";
 
 export function Anmeldung() {
-  const form = useForm<z.infer<typeof anmeldung>>({
+  const captchaRef = useRef<ReCAPTCHA>(null);
+  const form = useForm<AnmeldungType>({
     resolver: zodResolver(anmeldung),
+    defaultValues: {
+      instrument: undefined,
+      lehrer: undefined,
+      vertrag: undefined,
+      einverstaendnis: false,
+      plz: "",
+      email: "",
+      schueler_name: "",
+      ort: "",
+      strasse: "",
+      erziehungsberechtigte: "",
+      telefon: "",
+      geburtsdatum: dayjs().subtract(10, "year").toDate(),
+    },
   });
+  const [successModal, setSuccessModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
 
   const instrument = useWatch({
     control: form.control,
     name: "instrument",
   });
 
+  async function submit(data: AnmeldungType) {
+    if (!data.einverstaendnis || !captchaRef.current) {
+      return;
+    }
+
+    const token = captchaRef.current.getValue();
+
+    if (!token || !token.length) {
+      return;
+    }
+
+    fetch(`${apiGateway}/anmeldung`, {
+      method: "POST",
+      body: JSON.stringify({ ...data, token }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        setSuccessModal(true);
+        form.reset();
+      })
+      .catch(() => {
+        setErrorModal(true);
+      });
+  }
+
   return (
-    <main className="container mx-auto pb-12 md:pb-24 px-8 md:px-0">
-      <h1 className="text-3xl font-bold mb-8">Anmeldeformular</h1>
-      <form className="w-full space-y-4">
-        <div className="space-y-1">
-          <label htmlFor="email">E-Mail</label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="E-Mail Adresse eingeben"
-            {...form.register("email")}
-            id="email"
-            type="email"
+    <main className="container max-w-5xl mx-auto pb-12 md:pb-24 px-8">
+      <h1 className="text-3xl font-bold mb-2">Anmeldeformular</h1>
+      <h4 className="mb-8">
+        Fordern Sie jetzt Ihr unverbindliches Anmeldeformular an. Wir melden uns
+        innerhalb von 1-2 Werktagen bei Ihnen.
+      </h4>
+      <form className="w-full space-y-4" onSubmit={form.handleSubmit(submit)}>
+        <InstrumentSelect
+          control={form.control}
+          name="instrument"
+          onChange={() => {
+            form.setValue("lehrer", undefined as unknown as Lehrer);
+          }}
+        />
+        <LehrerSelect
+          control={form.control}
+          name="lehrer"
+          instrument={instrument}
+        />
+        <VertragSelect
+          control={form.control}
+          name="vertrag"
+          label="Vertrag wählen"
+        />
+        <Input
+          label="E-Mail"
+          name="email"
+          control={form.control}
+          placeholder="E-Mail Adresse angeben"
+          type="email"
+        />
+        <div className="flex flex-col md:flex-row flex-nowrap justify-start items-center gap-4">
+          <Input
+            label="Name des Schülers"
+            wrapperClassName="w-full max-w-full md:max-w-[350px]"
+            name="schueler_name"
+            control={form.control}
+            placeholder="Vor- und Nachname"
+          />
+          <Input
+            label="Geburtsdatum des Schülers"
+            wrapperClassName="w-full max-w-full md:max-w-[200px]"
+            name="geburtsdatum"
+            control={form.control}
+            type="date"
+          />
+          <Input
+            label="Erziehungsberechtigte"
+            wrapperClassName="w-full"
+            name="erziehungsberechtigte"
+            control={form.control}
+            placeholder="Vor- und Nachname"
           />
         </div>
-        <div className="space-y-1">
-          <label htmlFor="instrument">Instrument</label>
-          <select
-            {...form.register("instrument")}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="instrument"
-          >
-            <option selected disabled>
-              Instrument auswählen
-            </option>
-            {Object.values(Instrument).map((instrument) => (
-              <option value={instrument} key={instrument}>
-                {instrument.charAt(0).toUpperCase() + instrument.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="space-y-1">
-          <label htmlFor="lehrer">Lehrer</label>
-          <select
-            disabled={!instrument}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            {...form.register("lehrer")}
-            id="lehrer"
-          >
-            <option selected disabled>
-              Lehrer auswählen
-            </option>
-            {instrument &&
-              available_lehrer
-                .find((l) => l.instrument === instrument)
-                ?.lehrer.map((lehrer) => (
-                  <option value={lehrer} key={lehrer}>
-                    {lehrer.charAt(0).toUpperCase() + lehrer.slice(1)}
-                  </option>
-                ))}
-          </select>
-        </div>
         <div className="flex flex-col md:flex-row flex-nowrap justify-start items-center gap-4">
-          <div className="space-y-1 w-full max-w-full md:max-w-[350px]">
-            <label htmlFor="schlueler_name">Schülername</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Schülername eingeben"
-              {...form.register("schlueler_name")}
-              id="schlueler_name"
-              type="text"
-            />
-          </div>
-          <div className="space-y-1 w-full md:w-auto">
-            <label htmlFor="geburtsdatum">Geburtsdatum</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Geburtsdatum eingeben"
-              {...form.register("geburtsdatum")}
-              id="geburtsdatum"
-              type="date"
-            />
-          </div>
+          <Input
+            label="Straße"
+            wrapperClassName="space-y-1 w-full"
+            name="strasse"
+            control={form.control}
+            placeholder="Straße"
+          />
+          <Input
+            label="PLZ"
+            wrapperClassName="space-y-1 max-w-full md:max-w-[250px] w-full"
+            name="plz"
+            control={form.control}
+            placeholder="PLZ"
+          />
+          <Input
+            label="Ort"
+            wrapperClassName="space-y-1 w-full max-w-full md:max-w-[320px]"
+            name="ort"
+            control={form.control}
+            placeholder="Ort"
+          />
         </div>
-
-        <div className="flex flex-col md:flex-row flex-nowrap justify-start items-center gap-4">
-          <div className="space-y-1 max-w-full md:max-w-[200px] w-full">
-            <label htmlFor="plz">PLZ</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="PLZ eingeben"
-              {...form.register("plz")}
-              id="plz"
-              type="text"
-            />
-          </div>
-          <div className="space-y-1 w-full max-w-full md:max-w-[320px]">
-            <label htmlFor="wohnort">Ort</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Wohnort eingeben"
-              {...form.register("wohnort")}
-              id="wohnort"
-              type="text"
-            />
-          </div>
-          <div className="space-y-1 w-full">
-            <label htmlFor="strasse">Straße und Hausnummer</label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Straße eingeben"
-              {...form.register("strasse")}
-              id="strasse"
-              type="text"
-            />
-          </div>
+        <div className="max-w-full md:max-w-[300px] w-full">
+          <Input
+            label="Telefon"
+            wrapperClassName="space-y-1 w-full"
+            name="telefon"
+            control={form.control}
+            placeholder="Telefonnummer"
+            type="phone"
+          />
         </div>
-        <div className="pt-8 flex flex-row w-full flex-nowrap justify-end items-center">
+        <EinverstaendnisCheck control={form.control} name="einverstaendnis" />
+        <ReCAPTCHA
+          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          ref={captchaRef}
+        />
+        <div className="flex flex-row w-full flex-nowrap justify-start items-center">
           <button className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold">
             Formular absenden
           </button>
         </div>
       </form>
+      {successModal && (
+        <div
+          onClick={() => setSuccessModal(false)}
+          className="fixed inset-0 w-screen z-30 h-screen bg-black bg-opacity-50 flex items-center justify-center"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-xl p-4 space-y-4 w-[80%] md:w-[40%]"
+          >
+            <p className="text-theme-text font-bold">
+              Vielen Dank für Ihre Nachricht!
+            </p>
+            <button
+              onClick={() => setSuccessModal(false)}
+              className="bg-theme text-white rounded-md py-2 px-4"
+            >
+              Schließen
+            </button>
+          </div>
+        </div>
+      )}
+      {errorModal && (
+        <div
+          onClick={() => setSuccessModal(false)}
+          className="fixed inset-0 w-screen z-30 h-screen bg-black bg-opacity-50 flex items-center justify-center"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-xl p-4"
+          >
+            <p className="text-theme-text font-bold">
+              Es ist ein Fehler aufgetreten.
+            </p>
+            <button
+              onClick={() => setErrorModal(false)}
+              className="bg-theme text-white rounded-md py-2 px-4"
+            >
+              Schließen
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
