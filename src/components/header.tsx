@@ -1,21 +1,43 @@
 import { MOBILE_NUMBER } from "../lib/definitions";
 import logo from "../assets/logo.svg";
 import { MenuButton } from "./menu-button";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function Header() {
+  const scroll = useScroll();
+  const h = useTransform(scroll.scrollY, [0, 100], [100, 40]);
+  const p = useTransform(scroll.scrollY, [0, 100], [24, 12]);
+
   return (
     <header className="bg-white sticky top-0 left-0 w-full z-20 flex flex-row flex-nowrap justify-end md:justify-start items-center">
-      <nav className="hidden md:flex container px-4 md:px-8 text-theme-text font-semibold max-w-5xl text-sm mx-auto flex-row flex-nowrap py-12">
+      <a
+        href="/"
+        aria-label="Zur Startseite"
+        title="Zur Startseite"
+        className="flex md:hidden mr-auto pl-8"
+      >
+        <motion.img src={logo} alt="MusicSchool CML Logo" className="h-8" />
+      </a>
+      <motion.nav
+        style={{ paddingTop: p, paddingBottom: p }}
+        className="hidden md:flex container px-4 md:px-8 text-theme-text font-semibold max-w-5xl text-sm mx-auto flex-row flex-nowrap"
+      >
         <a
           href="/"
           aria-label="Zur Startseite"
           title="Zur Startseite"
           className="mr-4"
         >
-          <img src={logo} alt="MusicSchool CML Logo" width={242} height={105} />
+          <motion.img
+            src={logo}
+            style={{ height: h }}
+            alt="MusicSchool CML Logo"
+            width={242}
+            height={105}
+          />
         </a>
         <ul className="flex flex-row flex-nowrap gap-6 w-full">
-          <li>
+          <li className="flex justify-center items-center">
             <a
               className="hover:underline"
               href="/"
@@ -25,7 +47,7 @@ export function Header() {
               Startseite
             </a>
           </li>
-          <li>
+          <li className="flex justify-center items-center">
             <a
               className="hover:underline"
               href="/courses"
@@ -35,7 +57,7 @@ export function Header() {
               Unsere Kurse
             </a>
           </li>
-          <li>
+          <li className="flex justify-center items-center">
             <a
               className="hover:underline"
               href="/about"
@@ -45,7 +67,7 @@ export function Header() {
               Über uns
             </a>
           </li>
-          <li>
+          <li className="flex justify-center items-center">
             <a
               className="hover:underline"
               href="/contact"
@@ -55,7 +77,7 @@ export function Header() {
               Kontakt
             </a>
           </li>
-          <li>
+          <li className="flex justify-center items-center">
             <a
               className="hover:underline"
               href="/anmeldung"
@@ -66,15 +88,17 @@ export function Header() {
             </a>
           </li>
         </ul>
-        <a
-          className="hover:underline whitespace-nowrap"
-          href={`tel:${MOBILE_NUMBER}`}
-          aria-label="Ruf uns an"
-          title="Ruf uns an"
-        >
-          Mobil.: {MOBILE_NUMBER}
-        </a>
-      </nav>
+        <div className="flex justify-center items-center">
+          <a
+            className="hover:underline whitespace-nowrap"
+            href={`tel:${MOBILE_NUMBER}`}
+            aria-label="Ruf uns an"
+            title="Ruf uns an"
+          >
+            Mobil.: {MOBILE_NUMBER.replace("+49", "0")}
+          </a>
+        </div>
+      </motion.nav>
       <MenuButton />
     </header>
   );

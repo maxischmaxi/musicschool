@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import { VertragSelect } from "../components/vertrag-select";
 import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
 import { useRef, useState } from "react";
+import { isDesktop } from "react-device-detect";
 
 export function Anmeldung() {
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -82,17 +83,47 @@ export function Anmeldung() {
           name="instrument"
           onChange={() => {
             form.setValue("lehrer", undefined as unknown as Lehrer);
+            if (!isDesktop) {
+              const lehrerSection = document.getElementById("lehrer");
+              if (lehrerSection) {
+                lehrerSection.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                  inline: "end",
+                });
+              }
+            }
           }}
         />
         <LehrerSelect
           control={form.control}
           name="lehrer"
           instrument={instrument}
+          onChange={() => {
+            if (!isDesktop) {
+              const vertragSection = document.getElementById("vertrag");
+              if (vertragSection) {
+                vertragSection.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                  inline: "end",
+                });
+              }
+            }
+          }}
         />
         <VertragSelect
           control={form.control}
           name="vertrag"
           label="Vertrag wählen"
+          onChange={() => {
+            if (!isDesktop) {
+              const emailSection = document.getElementById("email");
+              if (emailSection) {
+                emailSection.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
         />
         <Input
           label="E-Mail"
