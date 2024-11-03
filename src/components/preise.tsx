@@ -7,7 +7,6 @@ type PreisProps = {
   aufnahmeGebuehr: number;
   monatlicheGebuehr?: number;
   einmaligeGebuehr?: number;
-  pdf: string;
 };
 
 function Preis(props: PreisProps) {
@@ -49,9 +48,8 @@ function Preis(props: PreisProps) {
           )}
         </p>
         <a
-          href={`/${props.pdf}`}
+          href="/anmeldung"
           className="bg-dark-red mt-4 hover:underline rounded-xl w-full text-white font-bold text-lg py-2 text-center block"
-          target="_blank"
         >
           Anmeldeformular
         </a>
@@ -81,7 +79,6 @@ export function Preise() {
           description="Der Unterricht wird als Lektion zu wöchentlich einmal 30 Minuten erteilt."
           aufnahmeGebuehr={20}
           monatlicheGebuehr={88}
-          pdf={"vertrag_88.pdf"}
         />
         <Preis
           minutes={45}
@@ -89,7 +86,6 @@ export function Preise() {
           description="Der Unterricht wird als Lektion zu wöchentlich einmal 45 Minuten erteilt. Die einmalige Aufnahmegebühr beträgt 20,- Euro."
           aufnahmeGebuehr={20}
           monatlicheGebuehr={111}
-          pdf={"vertrag_111.pdf"}
         />
         <Preis
           minutes={60}
@@ -97,7 +93,6 @@ export function Preise() {
           description="Der Unterricht wird als Lektion zu wöchentlich einmal 60 Minuten erteilt."
           aufnahmeGebuehr={20}
           monatlicheGebuehr={66}
-          pdf={"vertrag_66.pdf"}
         />
         <Preis
           minutes={45}
@@ -105,7 +100,6 @@ export function Preise() {
           description="Der Unterricht wird als 10-stündige Lektion zu jeweils 45 Minuten bei freier Vereinbarung des Zeitpunktes in Absprache mit der Lehrkraft erteilt."
           aufnahmeGebuehr={20}
           einmaligeGebuehr={450}
-          pdf={"vertrag_450.pdf"}
         />
       </div>
     </section>
