@@ -1,8 +1,9 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { vertraege } from "../lib/definitions";
 import classNames from "classnames";
-import { InfoIcon, XIcon } from "lucide-react";
+import { CheckIcon, InfoIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -53,7 +54,7 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
                     onChange?.(vertrag.id);
                   }}
                   className={classNames(
-                    "cursor-pointer rounded-2xl overflow-hidden border flex flex-col",
+                    "cursor-pointer relative rounded-2xl border flex flex-col",
                     field.value === vertrag.id
                       ? "border-4 border-theme"
                       : "border-4 border-gray-100",
@@ -61,7 +62,7 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
                   title={vertrag.minuten + " Minuten"}
                   key={key}
                 >
-                  <div className="bg-theme py-2 w-full relative">
+                  <div className="rounded-t-xl bg-theme py-2 w-full relative">
                     <span className="text-white font-bold text-xl text-center flex w-full justify-center items-center">
                       {vertrag.minuten}
                       <br />
@@ -98,6 +99,18 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
                     Monatlicher Beitrag <br />
                     {vertrag.preis} €
                   </span>
+                  <AnimatePresence>
+                    {field.value === vertrag.id && (
+                      <motion.div
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }}
+                        className="absolute -top-4 -left-4 rounded-full bg-green-600 flex justify-center items-center text-white w-10 h-10"
+                      >
+                        <CheckIcon />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>

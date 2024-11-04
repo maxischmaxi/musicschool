@@ -5,6 +5,7 @@ import martin from "../assets/martin.png";
 import benjamin from "../assets/benjamin.png";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
+import { CheckIcon } from "lucide-react";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -83,7 +84,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                       }}
                       disabled={field.disabled}
                       className={classNames(
-                        "will-change-auto h-48 w-full relative flex items-center justify-center rounded-2xl overflow-hidden",
+                        "will-change-auto h-48 w-full relative flex items-center justify-center rounded-2xl",
                         field.value === l.value
                           ? "border-4 border-theme"
                           : "border-4 border-transparent",
@@ -95,9 +96,21 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                       }}
                     >
                       <LehrerImage lehrer={l.value} />
-                      <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40">
+                      <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40 rounded-xl">
                         <span>{l.label}</span>
                       </div>
+                      <AnimatePresence>
+                        {field.value === l.value && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.5, opacity: 0 }}
+                            className="absolute -top-4 -right-4 rounded-full bg-green-600 flex justify-center items-center text-white w-10 h-10"
+                          >
+                            <CheckIcon />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.button>
                   ))}
                 </AnimatePresence>

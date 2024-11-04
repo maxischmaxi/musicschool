@@ -10,6 +10,8 @@ import flute from "../assets/flute.jpg";
 import bass from "../assets/bass.jpg";
 import drums from "../assets/schlagzeug.jpg";
 import classNames from "classnames";
+import { CheckIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -18,7 +20,7 @@ type Props<T extends FieldValues> = {
 };
 
 function InstrumentImage({ instrument }: { instrument: Instrument }) {
-  const className = "w-full h-24 object-cover object-center";
+  const className = "w-full h-24 object-cover object-center rounded-xl";
 
   switch (instrument) {
     case Instrument.PIANO:
@@ -71,14 +73,14 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                 }}
                 type="button"
                 className={classNames(
-                  "relative flex flex-col col-span-1 flex-nowrap justify-center items-center overflow-hidden rounded-xl",
+                  "relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl",
                   field.value === instrument
                     ? "border-4 border-theme"
                     : "border-4 border-transparent",
                 )}
               >
                 <InstrumentImage instrument={instrument as Instrument} />
-                <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40">
+                <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40 rounded-lg">
                   <span>
                     {instrument === Instrument.BLOCKFLOETE ? (
                       <span>Blockflöte</span>
@@ -90,6 +92,18 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                     )}
                   </span>
                 </div>
+                <AnimatePresence>
+                  {field.value === instrument && (
+                    <motion.div
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.5, opacity: 0 }}
+                      className="absolute -top-4 -right-4 rounded-full bg-green-600 flex justify-center items-center text-white w-10 h-10"
+                    >
+                      <CheckIcon />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </button>
             ))}
           </div>
