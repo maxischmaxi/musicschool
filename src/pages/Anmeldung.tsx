@@ -72,8 +72,8 @@ export function Anmeldung() {
 
   return (
     <main className="container max-w-5xl mx-auto pb-12 md:pb-24 px-8">
-      <h1 className="text-3xl font-bold mb-2">Anmeldeformular</h1>
-      <h4 className="mb-8">
+      <h1 className="text-theme-text font-bold mb-2 text-4xl">Kontakt</h1>
+      <h4 className="text-theme-text mb-8">
         Fordern Sie jetzt Ihr unverbindliches Anmeldeformular an. Wir melden uns
         innerhalb von 1-2 Werktagen bei Ihnen.
       </h4>

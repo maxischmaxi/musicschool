@@ -11,7 +11,8 @@ import bass from "../assets/bass.jpg";
 import drums from "../assets/schlagzeug.jpg";
 import classNames from "classnames";
 import { CheckIcon } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 type Props<T extends FieldValues> = {
   control: Control<T>;
@@ -46,6 +47,65 @@ function InstrumentImage({ instrument }: { instrument: Instrument }) {
   }
 }
 
+type InstrumentProps = {
+  onChange: (instrument: Instrument) => void;
+  value: Instrument;
+  instrument: Instrument;
+};
+
+function InstrumentComponent(props: InstrumentProps) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const inView = useInView(ref, {
+    once: true,
+  });
+
+  const { onChange, value, instrument } = props;
+
+  return (
+    <motion.button
+      ref={ref}
+      animate={{
+        y: inView ? 0 : 100,
+        opacity: inView ? 1 : 0,
+      }}
+      transition={{ duration: 0.3 }}
+      onClick={() => onChange(value)}
+      type="button"
+      className={classNames(
+        "will-change-transform relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl",
+        value === instrument
+          ? "border-4 border-theme"
+          : "border-4 border-transparent",
+      )}
+    >
+      <InstrumentImage instrument={instrument as Instrument} />
+      <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40 rounded-lg">
+        <span>
+          {instrument === Instrument.BLOCKFLOETE ? (
+            <span>Blockflöte</span>
+          ) : (
+            <span>
+              {instrument.charAt(0).toUpperCase() + instrument.slice(1)}
+            </span>
+          )}
+        </span>
+      </div>
+      <AnimatePresence>
+        {value === instrument && (
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            className="absolute -top-4 -right-4 rounded-full bg-green-600 flex justify-center items-center text-white w-10 h-10"
+          >
+            <CheckIcon />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
 export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
   const { control, name, onChange } = props;
 
@@ -65,46 +125,14 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Object.values(Instrument).map((instrument) => (
-              <button
-                key={instrument}
-                onClick={() => {
-                  field.onChange(instrument);
-                  onChange?.(instrument as Instrument);
+              <InstrumentComponent
+                onChange={(value) => {
+                  field.onChange(value);
+                  onChange?.(value);
                 }}
-                type="button"
-                className={classNames(
-                  "relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl",
-                  field.value === instrument
-                    ? "border-4 border-theme"
-                    : "border-4 border-transparent",
-                )}
-              >
-                <InstrumentImage instrument={instrument as Instrument} />
-                <div className="absolute inset-0 w-full h-full text-white font-bold flex justify-center items-center bg-black/40 rounded-lg">
-                  <span>
-                    {instrument === Instrument.BLOCKFLOETE ? (
-                      <span>Blockflöte</span>
-                    ) : (
-                      <span>
-                        {instrument.charAt(0).toUpperCase() +
-                          instrument.slice(1)}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                <AnimatePresence>
-                  {field.value === instrument && (
-                    <motion.div
-                      initial={{ scale: 0.5, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.5, opacity: 0 }}
-                      className="absolute -top-4 -right-4 rounded-full bg-green-600 flex justify-center items-center text-white w-10 h-10"
-                    >
-                      <CheckIcon />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </button>
+                value={field.value}
+                instrument={instrument}
+              />
             ))}
           </div>
           {error && (
