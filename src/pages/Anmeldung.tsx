@@ -42,7 +42,7 @@ export function Anmeldung() {
     name: "instrument",
   });
 
-  const send = useMutation<boolean, boolean, AnmeldungType>({
+  const send = useMutation<void, boolean, AnmeldungType>({
     async mutationFn(formdata) {
       const res = await fetch(`${apiGateway}/anmeldung`, {
         method: "POST",
@@ -55,14 +55,6 @@ export function Anmeldung() {
       if (res.status !== 200 || res.ok) {
         throw new Error("An error occurred");
       }
-
-      const data = await res.json();
-
-      if (!data["message"] || typeof data["message"] !== "string") {
-        throw new Error("An error occurred");
-      }
-
-      return data["message"] === "ok";
     },
     onSuccess: () => {
       form.reset();
