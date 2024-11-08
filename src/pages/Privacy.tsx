@@ -4,87 +4,150 @@ export function Privacy() {
       <h1 className="w-full text-2xl md:text-5xl font-semibold text-center">
         Datenschutzerklärung
       </h1>
-      <h4 className="text-xl font-bold mt-12">
-        Anbieter und verantwortliche Stelle im Sinne des Datenschutzgesetzes
-      </h4>
-      <p className="font-bold text-lg mt-12">MusicSchool CML GbR</p>
-      <p className="font-semibold mt-8">Jana Jeschek</p>
-      <p className="font-semibold">Ottostraße 31</p>
-      <p className="font-semibold">D-85521 Ottobrunn</p>
-      <p className="font-bold text-lg mt-12">Geltungsbereich</p>
+      <p className="font-bold text-lg mt-12">1. Geltungsbereich</p>
       <p>
-        Nutzer erhalten mit dieser Datenschutzerklärung Information über die
-        Art, den Umfang und Zweck der Erhebung und Verwendung ihrer Daten durch
-        den verantwortlichen Anbieter erhoben und verwendet werden.
+        Diese Datenschutzerklärung informiert Nutzer über Art, Umfang und Zweck
+        der Erhebung und Verwendung personenbezogener Daten durch den
+        verantwortlichen Anbieter. Der rechtliche Rahmen für den Datenschutz
+        basiert auf der Datenschutz-Grundverordnung (DSGVO).
+      </p>
+      <p className="font-bold text-lg mt-4">2. Verantwortlicher</p>
+      <p>
+        Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+        <br />
+        MusicSchool CML GbR
+        <br />
+        Jana Jeschek <br />
+        Ottostraße 31 <br />
+        D-85521 Ottobrunn
+      </p>
+      <p className="font-bold text-lg mt-4">3. Kontakt- und Anmeldeformulare</p>
+      <p>
+        Auf unserer Website bieten wir ein Kontakt- sowie ein Anmeldeformular
+        an. Diese Formulare sind durch Google reCAPTCHA geschützt, um die
+        Sicherheit unserer Website zu gewährleisten und um zu verhindern, dass
+        automatisierte Bots (Spam) die Formulare missbrauchen. Wenn Sie uns über
+        diese Formulare kontaktieren, werden die von Ihnen eingegebenen Daten
+        ausschließlich zur Bearbeitung Ihrer Anfrage verwendet. Es wird
+        lediglich eine E-Mail an uns gesendet, ohne dass Ihre Daten auf unseren
+        Servern gespeichert werden.
+      </p>
+      <p className="font-bold text-md mt-4">
+        Zusätzlich verarbeitete Daten durch Google reCAPTCHA:
+      </p>
+      <ul className="list-disc pl-8 my-4">
+        <li>IP-Adresse</li>
+        <li>Verweildauer auf der Website</li>
+        <li>
+          Mausbewegungen und andere Nutzungsdaten zur Unterscheidung von Mensch
+          und Bot
+        </li>
+      </ul>
+      <p className="font-bold text-md mt-4">Rechtsgrundlage</p>
+      <p>
+        Die Nutzung von Google reCAPTCHA erfolgt auf Grundlage unseres
+        berechtigten Interesses gemäß Art. 6 Abs. 1 lit. f DSGVO, um unsere
+        Website vor missbräuchlicher automatisierter Ausspähung und vor Spam zu
+        schützen.
+        <br />
+        Die Verarbeitung der in das Kontakt- bzw. Anmeldeformular eingegebenen
+        Daten erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a
+        DSGVO). Ihre Einwilligung können Sie jederzeit widerrufen, indem Sie uns
+        eine formlose Mitteilung per E-Mail senden. Die Rechtmäßigkeit der bis
+        zum Widerruf erfolgten Datenverarbeitungsvorgänge bleibt vom Widerruf
+        unberührt.
+      </p>
+      <p className="font-bold text-lg mt-4">
+        4. Einbindung von Diensten und Inhalten Dritter
+      </p>
+      <p>
+        Unsere Website kann Inhalte, Dienste und Leistungen Dritter einbinden,
+        wie zum Beispiel Karten von Google Maps, Videos von YouTube, Grafiken
+        von anderen Websites und Sicherheitsdienste wie Google reCAPTCHA. Zur
+        Darstellung dieser Inhalte und Dienste ist es technisch notwendig, dass
+        Ihre IP-Adresse an die jeweiligen Dritt-Anbieter übermittelt wird.
+        Google reCAPTCHA dient dabei dem Schutz unserer Formulare vor
+        missbräuchlicher Nutzung durch Bots.
+      </p>
+      <p className="font-bold text-md mt-4">Hinweis zu Google reCAPTCHA:</p>
+      <p>
+        Dieser Dienst wird von Google LLC, 1600 Amphitheatre Parkway, Mountain
+        View, CA 94043, USA („Google“) bereitgestellt. Google reCAPTCHA
+        analysiert Ihr Nutzerverhalten auf unserer Website (z.B. Mausbewegungen,
+        Verweildauer, IP-Adresse), um zu prüfen, ob es sich bei der Nutzung
+        unserer Formulare um einen Menschen handelt. Die hierbei erhobenen Daten
+        werden an Google übermittelt und dort weiterverarbeitet. Auf diese
+        Datenverarbeitung haben wir keinen Einfluss.
       </p>
       <p className="mt-4">
-        Den rechtlichen Rahmen für den Datenschutz bilden das
-        Bundesdatenschutzgesetz (BDSG) und das Telemediengesetz (TMG).
+        Weitere Informationen zum Umgang mit Ihren Daten durch Google finden Sie
+        in der{" "}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://policies.google.com/privacy"
+          className="text-blue-400 hover:underline"
+        >
+          Datenschutzerklärung von Google
+        </a>
+        .
       </p>
-      <p className="font-bold text-lg mt-12">Kontaktformular</p>
+      <p className="font-bold text-md mt-4">Rechtsgrundlage:</p>
       <p>
-        Wenn Sie uns über das Onlineformular oder per E-Mail kontaktieren,
-        speichern wir die von Ihnen gemachten Angaben, um Ihre Anfrage
-        beantworten und mögliche Anschlussfragen stellen zu können.
+        Die Einbindung von Google reCAPTCHA erfolgt auf Grundlage unseres
+        berechtigten Interesses gemäß Art. 6 Abs. 1 lit. f DSGVO, um unsere
+        Online-Angebote vor missbräuchlicher Nutzung zu schützen.
       </p>
-      <p className="font-bold text-lg mt-12">
-        Einbindung von Diensten und Inhalten Dritter
+      <p className="font-bold text-lg mt-4">5. Ihre Rechte</p>
+      <p>Ihnen stehen die folgenden Rechte gemäß der DSGVO zu:</p>
+      <ul className="list-disc pl-8 my-4">
+        <li>
+          <b>Recht auf Auskunft</b> (Art. 15 DSGVO): Sie haben das Recht,
+          Auskunft über die von uns verarbeiteten personenbezogenen Daten zu
+          erhalten.
+        </li>
+        <li>
+          <b>Recht auf Berichtigung</b> (Art. 16 DSGVO): Sie können die
+          Berichtigung unrichtiger Daten verlangen.
+        </li>
+        <li>
+          <b>Recht auf Löschung</b> (Art. 17 DSGVO): Sie haben das Recht, die
+          Löschung Ihrer Daten zu verlangen, sofern keine gesetzlichen
+          Aufbewahrungspflichten dem entgegenstehen.
+        </li>
+        <li>
+          <b>Recht auf Einschränkung der Verarbeitung</b> (Art. 18 DSGVO): Sie
+          können unter bestimmten Voraussetzungen die Einschränkung der
+          Verarbeitung Ihrer Daten verlangen.
+        </li>
+        <li>
+          <b>Recht auf Datenübertragbarkeit</b> (Art. 20 DSGVO): Sie haben das
+          Recht, die uns bereitgestellten Daten in einem gängigen,
+          maschinenlesbaren Format zu erhalten.
+        </li>
+        <li>
+          <b>Recht auf Widerspruch</b> (Art. 21 DSGVO): Sie können der
+          Datenverarbeitung jederzeit widersprechen.
+        </li>
+      </ul>
+      <p>
+        Für die Ausübung Ihrer Rechte kontaktieren Sie bitte unseren
+        Datenschutzbeauftragten: <br />
+        Jana Jeschek <br />
+        Ottostraße 31 <br />
+        D-85521 Ottobrunn
+      </p>
+      <p className="font-bold text-lg mt-4">
+        6. Änderungen dieser Datenschutzerklärung
       </p>
       <p>
-        Unser Angebot umfasst mitunter Inhalte, Dienste und Leistungen anderer
-        Anbieter. Das sind zum Beispiel Karten, die von Google-Maps zur
-        Verfügung gestellt werden, Videos von YouTube sowie Grafiken und Bilder
-        anderer Webseiten. Damit diese Daten im Browser des Nutzers aufgerufen
-        und dargestellt werden können, ist die Übermittlung der IP-Adresse
-        zwingend notwendig. Die Anbieter (im Folgenden als „Dritt-Anbieter“
-        bezeichnet) nehmen also die IP-Adresse des jeweiligen Nutzers wahr.
+        Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen,
+        um den aktuellen rechtlichen Anforderungen zu entsprechen oder
+        Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen.
+        Die neue Datenschutzerklärung gilt ab Ihrem nächsten Besuch auf unserer
+        Website.
       </p>
-      <p className="mt-4">
-        Auch wenn wir bemüht sind, ausschließlich Dritt-Anbieter zu nutzen,
-        welche die IP-Adresse nur benötigen, um Inhalte ausliefern zu können,
-        haben wir keinen Einfluss darauf, ob die IP-Adresse möglicherweise
-        gespeichert wird. Dieser Vorgang dient in dem Fall unter anderem
-        statistischen Zwecken. Sofern wir Kenntnis davon haben, dass die
-        IP-Adresse gespeichert wird, weisen wir unsere Nutzer darauf hin.
-      </p>
-      <p className="font-bold text-lg mt-12">
-        Ihre Rechte auf Auskunft, Berichtigung, Sperre, Löschung und Widerspruch
-      </p>
-      <p>
-        Sie haben das Recht, auf Antrag unentgeltlich eine Auskunft, über die
-        bei uns gespeicherten personenbezogenen Daten, anzufordern und/oder eine
-        Berichtigung, Sperrung oder Löschung zu verlangen. Ausnahmen: Es handelt
-        sich um die vorgeschriebene Datenspeicherung zur Geschäftsabwicklung
-        oder die Daten unterliegen der gesetzlichen Aufbewahrungspflicht.
-      </p>
-      <p className="mt-4">
-        Für diese Zwecke kontaktieren Sie bitte unseren Datenschutzbeauftragen
-        (Kontaktdaten: am Ende der Datenschutzerklärung).
-      </p>
-      <p className="mt-4">
-        Um eine Datensperre jederzeit berücksichtigen zu können, ist es
-        erforderlich, die Daten für Kontrollzwecke in einer Sperrdatei
-        vorzuhalten. Besteht keine gesetzliche Archivierungspflicht, können Sie
-        auch die Löschung der Daten verlangen. Anderenfalls sperren wir die
-        Daten, sofern Sie dies wünschen.
-      </p>
-      <p className="font-bold text-lg mt-12">
-        Änderung unserer Datenschutzerklärung
-      </p>
-      <p>
-        Um zu gewährleisten, dass unsere Datenschutzerklärung stets den
-        aktuellen gesetzlichen Vorgaben entspricht, behalten wir uns jederzeit
-        Änderungen vor. Das gilt auch für den Fall, dass die
-        Datenschutzerklärung aufgrund neuer oder überarbeiteter Leistungen, zum
-        Beispiel neuer Serviceleistungen, angepasst werden muss. Die neue
-        Datenschutzerklärung greift dann bei Ihrem nächsten Besuch auf unserem
-        Angebot.
-      </p>
-      <p className="font-bold text-xl mt-12">Datenschutzbeauftragter</p>
-      <p className="font-bold text-lg mt-12">MusicSchool CML GbR</p>
-      <p className="font-semibold mt-8">Jana Jeschek</p>
-      <p className="font-semibold">Ottostraße 31</p>
-      <p className="font-semibold">D-85521 Ottobrunn</p>
+      <p className="mt-4">Stand dieser Datenschutzerklärung: 08.11.2024</p>
     </main>
   );
 }
