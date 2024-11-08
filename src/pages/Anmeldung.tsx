@@ -52,8 +52,12 @@ export function Anmeldung() {
         },
       });
 
-      if (res.status !== 200 || res.ok) {
-        throw new Error("An error occurred");
+      if (!res.ok) {
+        throw new Error("Fehler beim Senden des Formulars");
+      }
+
+      if (res.status !== 200) {
+        throw new Error("Fehler beim Senden des Formulars");
       }
     },
     onSuccess: () => {
@@ -70,8 +74,8 @@ export function Anmeldung() {
       </h4>
       <form
         className="w-full space-y-4"
-        onSubmit={form.handleSubmit((data) => {
-          send.mutate(data);
+        onSubmit={form.handleSubmit(async (data) => {
+          await send.mutateAsync(data);
         })}
       >
         <InstrumentSelect
@@ -256,7 +260,7 @@ export function Anmeldung() {
             <p className="text-theme-text font-bold">
               Vielen Dank für Ihre Nachricht!
             </p>
-            <p>
+            <p className="my-2">
               Wir haben Ihre Anmeldung erhalten und werden uns innerhalb von 1-2
               Werktagen bei Ihnen melden.
             </p>
@@ -288,7 +292,7 @@ export function Anmeldung() {
             <p className="text-theme-text font-bold">
               Es ist ein Fehler aufgetreten.
             </p>
-            <p>
+            <p className="my-2">
               Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.
             </p>
             <button
