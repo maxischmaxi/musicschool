@@ -157,7 +157,7 @@ export const anmeldung = z.object({
       required_error: "Bitte gib das Geburtsdatum des Schülers an",
       message: "Bitte gib das Geburtsdatum des Schülers an",
     })
-    .date(),
+    .date("Bitte gib ein gültiges Geburtsdatum an"),
   ort: z
     .string({
       required_error: "Bitte gib den Wohnort an",
