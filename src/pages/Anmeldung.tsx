@@ -13,7 +13,7 @@ import { LehrerSelect } from "../components/lehrer-select";
 import dayjs from "dayjs";
 import { VertragSelect } from "../components/vertrag-select";
 import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { isDesktop } from "react-device-detect";
 import { useMutation } from "@tanstack/react-query";
 
@@ -38,8 +38,6 @@ export function Anmeldung() {
     },
   });
   const captchaError = form.formState.errors.token?.message;
-  const [successModal, setSuccessModal] = useState(false);
-  const [errorModal, setErrorModal] = useState(false);
 
   const instrument = useWatch({
     control: form.control,
@@ -55,15 +53,23 @@ export function Anmeldung() {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => res.ok)
+        .then(async (res) => {
+          if (res.status !== 200 || res.ok) {
+            throw new Error("An error occurred");
+          }
+
+          const data = await res.json();
+
+          if (!data["message"] || typeof data["message"] !== "string") {
+            throw new Error("An error occurred");
+          }
+
+          return data["message"] === "ok";
+        })
         .catch(() => false);
     },
     onSuccess: () => {
-      setSuccessModal(true);
       form.reset();
-    },
-    onError: () => {
-      setErrorModal(true);
     },
   });
 
@@ -254,9 +260,11 @@ export function Anmeldung() {
           </button>
         </div>
       </form>
-      {successModal && (
+      {send.isSuccess && (
         <div
-          onClick={() => setSuccessModal(false)}
+          onClick={() => {
+            send.reset();
+          }}
           className="fixed inset-0 w-screen z-30 h-screen bg-black bg-opacity-50 flex items-center justify-center"
         >
           <div
@@ -271,7 +279,9 @@ export function Anmeldung() {
               Werktagen bei Ihnen melden.
             </p>
             <button
-              onClick={() => setSuccessModal(false)}
+              onClick={() => {
+                send.reset();
+              }}
               type="button"
               aria-label="Schließen"
               title="Schließen"
@@ -282,9 +292,11 @@ export function Anmeldung() {
           </div>
         </div>
       )}
-      {errorModal && (
+      {send.isError && (
         <div
-          onClick={() => setSuccessModal(false)}
+          onClick={() => {
+            send.reset();
+          }}
           className="fixed inset-0 w-screen z-30 h-screen bg-black bg-opacity-50 flex items-center justify-center"
         >
           <div
@@ -298,7 +310,9 @@ export function Anmeldung() {
               Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.
             </p>
             <button
-              onClick={() => setErrorModal(false)}
+              onClick={() => {
+                send.reset();
+              }}
               className="bg-theme text-white rounded-md py-2 px-4"
               type="button"
               title="Schließen"
