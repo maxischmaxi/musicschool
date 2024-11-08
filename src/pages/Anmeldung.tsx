@@ -45,28 +45,26 @@ export function Anmeldung() {
   });
 
   const send = useMutation<boolean, boolean, AnmeldungType>({
-    async mutationFn(data) {
-      return await fetch(`${apiGateway}/anmeldung`, {
+    async mutationFn(formdata) {
+      const res = await fetch(`${apiGateway}/anmeldung`, {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(formdata),
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then(async (res) => {
-          if (res.status !== 200 || res.ok) {
-            throw new Error("An error occurred");
-          }
+      });
 
-          const data = await res.json();
+      if (res.status !== 200 || res.ok) {
+        throw new Error("An error occurred");
+      }
 
-          if (!data["message"] || typeof data["message"] !== "string") {
-            throw new Error("An error occurred");
-          }
+      const data = await res.json();
 
-          return data["message"] === "ok";
-        })
-        .catch(() => false);
+      if (!data["message"] || typeof data["message"] !== "string") {
+        throw new Error("An error occurred");
+      }
+
+      return data["message"] === "ok";
     },
     onSuccess: () => {
       form.reset();
