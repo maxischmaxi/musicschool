@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import ReCAPTCHA from "react-google-recaptcha";
 import { useForm, useWatch } from "react-hook-form";
 import {
   Anmeldung as AnmeldungType,
@@ -13,12 +12,11 @@ import { LehrerSelect } from "../components/lehrer-select";
 import dayjs from "dayjs";
 import { VertragSelect } from "../components/vertrag-select";
 import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
-import { useRef } from "react";
 import { isDesktop } from "react-device-detect";
 import { useMutation } from "@tanstack/react-query";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export function Anmeldung() {
-  const captchaRef = useRef<ReCAPTCHA>(null);
   const form = useForm<AnmeldungType>({
     resolver: zodResolver(anmeldung),
     defaultValues: {
@@ -233,15 +231,9 @@ export function Anmeldung() {
         <p className="text-xs text-theme-text">
           <span className="text-red-500">*</span> Pflichtfelder
         </p>
-        <ReCAPTCHA
-          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-          ref={captchaRef}
-          onChange={(token) => {
-            if (token) {
-              form.setValue("token", token);
-            } else {
-              form.setValue("token", "");
-            }
+        <GoogleReCaptcha
+          onVerify={(token) => {
+            form.setValue("token", token);
           }}
         />
         {Boolean(captchaError) && (

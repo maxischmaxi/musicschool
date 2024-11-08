@@ -4,8 +4,17 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodObject, ZodString } from "zod";
 import { apiGateway } from "../lib/definitions";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const kontaktSchema = z.object({
+  token: z
+    .string({
+      message: "Bitte füllen Sie das Captcha aus",
+      required_error: "Bitte füllen Sie das Captcha aus",
+    })
+    .min(1, {
+      message: "Bitte füllen Sie das Captcha aus",
+    }),
   email: z
     .string({
       required_error: "Bitte gib deine E-Mail-Adresse an.",
@@ -29,14 +38,14 @@ type KontaktSchema = ZodObject<{
   email: ZodString;
   name: ZodString;
   message: ZodString;
+  token: ZodString;
 }>;
 
 export function Contact() {
-  const captchaRef = useRef<ReCAPTCHA>(null);
   const [successModal, setSuccessModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
 
-  const { reset, handleSubmit, formState, register } = useForm<
+  const { setValue, reset, handleSubmit, formState, register } = useForm<
     z.infer<KontaktSchema>
   >({
     resolver: zodResolver(kontaktSchema),
@@ -49,19 +58,9 @@ export function Contact() {
   });
 
   const submit = (data: z.infer<KontaktSchema>): void => {
-    if (!captchaRef.current) {
-      return;
-    }
-
-    const token = captchaRef.current.getValue();
-
-    if (!token || !token.length) {
-      return;
-    }
-
     fetch(`${apiGateway}/contact`, {
       method: "POST",
-      body: JSON.stringify({ ...data, token }),
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
@@ -131,10 +130,14 @@ export function Contact() {
               <p className="text-red-500">{errors.message.message}</p>
             )}
           </div>
-          <ReCAPTCHA
-            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-            ref={captchaRef}
+          <GoogleReCaptcha
+            onVerify={(token) => {
+              setValue("token", token);
+            }}
           />
+          {Boolean(errors.token?.message) && (
+            <p className="text-red-500">{errors.token?.message}</p>
+          )}
           <div className="flex">
             <button
               className="bg-theme disabled:opacity-50 text-white rounded-md py-2 px-4"

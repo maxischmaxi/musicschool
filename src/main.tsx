@@ -8,6 +8,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Home } from "./pages/Home.tsx";
 import { Imprint } from "./pages/Imprint.tsx";
 import { Privacy } from "./pages/Privacy.tsx";
@@ -37,7 +38,18 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={client}>
-      <RouterProvider router={router} />
+      <GoogleReCaptchaProvider
+        reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+        language="de"
+        scriptProps={{
+          async: true,
+          defer: true,
+          appendTo: "head",
+          nonce: undefined,
+        }}
+      >
+        <RouterProvider router={router} />
+      </GoogleReCaptchaProvider>
     </QueryClientProvider>
   </StrictMode>,
 );
