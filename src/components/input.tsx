@@ -1,23 +1,32 @@
 import classNames from "classnames";
+import { InputHTMLAttributes } from "react";
 import { Path, Control, Controller, FieldValues } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
-  type?: "phone" | "email" | "text" | "date";
   control: Control<T>;
   name: Path<T>;
   label?: string;
   wrapperClassName?: string;
-  placeholder?: string;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export function Input<T extends FieldValues>(props: Props<T>) {
-  const { type, placeholder, name, control, label, wrapperClassName } = props;
+  const {
+    type,
+    required,
+    placeholder,
+    name,
+    control,
+    label,
+    wrapperClassName,
+    ...rest
+  } = props;
 
   return (
     <div className={classNames("space-y-1", wrapperClassName)}>
       {Boolean(label) && (
         <label className="text-sm font-bold" htmlFor={name}>
           {label}
+          {required && <span className="text-red-500">*</span>}
         </label>
       )}
       <Controller
@@ -27,7 +36,7 @@ export function Input<T extends FieldValues>(props: Props<T>) {
           <>
             <div
               className={classNames(
-                "shadow appearance-none border rounded w-full text-gray-700 leading-tight focus-within:outline-none focus-within:shadow-outline flex flex-row flex-nowrap",
+                "shadow appearance-none border rounded-md overflow-hidden w-full text-gray-700 leading-tight focus-within:outline-none focus-within:shadow-outline flex flex-row flex-nowrap",
                 Boolean(error) && "border-red-500",
               )}
             >
@@ -40,8 +49,9 @@ export function Input<T extends FieldValues>(props: Props<T>) {
                 </label>
               )}
               <input
-                placeholder={placeholder}
+                {...rest}
                 {...field}
+                placeholder={placeholder}
                 type={type}
                 id={name}
                 className="outline-none h-8 w-full px-3"

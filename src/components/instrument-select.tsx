@@ -131,6 +131,7 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
         >
           <label className="text-sm font-bold" htmlFor={name}>
             Instrument wählen
+            <span className="text-red-500">*</span>
           </label>
           {isDesktop && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -179,7 +180,7 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                       className="bg-white p-4 rounded-xl will-change-transform w-[80vw]"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="max-h-[80vh] overflow-y-auto w-full flex flex-col">
+                      <div className="max-h-[65vh] overflow-y-auto w-full flex flex-col">
                         <div className="grid grid-cols-1 gap-4 w-full h-full">
                           {Object.values(Instrument).map((instrument) => (
                             <InstrumentComponent

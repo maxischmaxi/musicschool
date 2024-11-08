@@ -1,6 +1,6 @@
 import { MOBILE_NUMBER } from "../lib/definitions";
 import logo from "../assets/logo.svg";
-import { MenuButton } from "./menu-button";
+import { Sidebar } from "./sidebar";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export function Header() {
@@ -104,7 +104,7 @@ export function Header() {
           </a>
         </div>
       </motion.nav>
-      <MenuButton />
+      <Sidebar />
     </header>
   );
 }

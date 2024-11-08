@@ -43,6 +43,7 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
               htmlFor={name}
             >
               {label}
+              <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {vertraege.map((vertrag, key) => (
@@ -130,7 +131,7 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
                 }}
               >
                 <div
-                  className="bg-white rounded-2xl max-w-[90vw] md:max-w-xl relative flex flex-col flex-nowrap max-h-[80vh]"
+                  className="bg-white rounded-2xl max-w-[90vw] md:max-w-xl relative flex flex-col flex-nowrap max-h-[65vh]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex flex-row p-4 flex-nowrap justify-between items-center border-b border-gray-400">

@@ -122,6 +122,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
               htmlFor={name}
             >
               Lehrer wählen
+              <span className="text-red-500">*</span>
             </label>
             {isDesktop && (
               <>
@@ -188,7 +189,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                         className="bg-white p-4 rounded-xl will-change-transform w-[80vw]"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="max-h-[80vh] overflow-y-auto w-full flex flex-col">
+                        <div className="max-h-[65vh] overflow-y-auto w-full flex flex-col">
                           <div className="grid grid-cols-1 overflow-hidden gap-4 w-full h-full">
                             <AnimatePresence>
                               {lehrer.map((l) => (

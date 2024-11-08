@@ -32,9 +32,11 @@ export function Anmeldung() {
       strasse: "",
       erziehungsberechtigte: "",
       telefon: "",
-      geburtsdatum: dayjs().subtract(10, "year").toDate(),
+      geburtsdatum: dayjs().subtract(10, "year").toDate().toISOString(),
+      token: "",
     },
   });
+  const captchaError = form.formState.errors.token?.message;
   const [successModal, setSuccessModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
 
@@ -48,15 +50,9 @@ export function Anmeldung() {
       return;
     }
 
-    const token = captchaRef.current.getValue();
-
-    if (!token || !token.length) {
-      return;
-    }
-
     fetch(`${apiGateway}/anmeldung`, {
       method: "POST",
-      body: JSON.stringify({ ...data, token }),
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
@@ -120,76 +116,134 @@ export function Anmeldung() {
             }
           }}
         />
-        <Input
-          label="E-Mail"
-          name="email"
-          control={form.control}
-          placeholder="E-Mail Adresse angeben"
-          type="email"
-        />
+        <div className="w-full flex flex-col md:flex-row gap-4">
+          <Input
+            label="E-Mail"
+            name="email"
+            control={form.control}
+            placeholder="E-Mail Adresse angeben"
+            wrapperClassName="w-full"
+            autoComplete="email"
+            autoCorrect="off"
+            autoCapitalize="off"
+            aria-label="E-Mail"
+            type="email"
+            required
+          />
+          <Input
+            label="Telefon"
+            required
+            wrapperClassName="w-full max-w-[220px]"
+            name="telefon"
+            control={form.control}
+            placeholder="176 123 123 123"
+            type="phone"
+            aria-label="Telefon"
+            autoCorrect="off"
+            autoCapitalize="off"
+            autoComplete="tel"
+          />
+        </div>
         <div className="flex flex-col md:flex-row flex-nowrap justify-start items-center gap-4">
           <Input
             label="Name des Schülers"
+            autoCorrect="off"
+            autoCapitalize="on"
             wrapperClassName="w-full max-w-full md:max-w-[350px]"
+            required
             name="schueler_name"
             control={form.control}
             placeholder="Vor- und Nachname"
+            aria-label="Name des Schülers"
           />
           <Input
             label="Geburtsdatum des Schülers"
             wrapperClassName="w-full max-w-full md:max-w-[200px]"
+            required
             name="geburtsdatum"
             control={form.control}
             type="date"
+            autoComplete="bday"
+            autoCapitalize="off"
+            autoCorrect="off"
+            aria-label="Geburtsdatum des Schülers"
           />
           <Input
             label="Erziehungsberechtigte"
+            required
             wrapperClassName="w-full"
             name="erziehungsberechtigte"
             control={form.control}
             placeholder="Vor- und Nachname"
+            autoCapitalize="on"
+            autoCorrect="off"
+            autoComplete="name"
+            aria-label="Erziehungsberechtigte"
           />
         </div>
         <div className="flex flex-col md:flex-row flex-nowrap justify-start items-center gap-4">
           <Input
             label="Straße"
-            wrapperClassName="space-y-1 w-full"
+            wrapperClassName="space-y-1 w-full max-w-full md:max-w-[350px]"
+            required
             name="strasse"
             control={form.control}
             placeholder="Straße"
+            autoComplete="street-address"
+            autoCorrect="off"
+            autoCapitalize="off"
           />
           <Input
             label="PLZ"
-            wrapperClassName="space-y-1 max-w-full md:max-w-[250px] w-full"
+            wrapperClassName="space-y-1 max-w-full md:max-w-[200px] w-full"
+            required
             name="plz"
             control={form.control}
             placeholder="PLZ"
+            autoComplete="postal-code"
+            autoCorrect="off"
+            autoCapitalize="off"
+            aria-label="PLZ"
           />
           <Input
             label="Ort"
-            wrapperClassName="space-y-1 w-full max-w-full md:max-w-[320px]"
+            wrapperClassName="space-y-1 w-full"
+            required
             name="ort"
             control={form.control}
             placeholder="Ort"
+            autoComplete="address-level2"
+            autoCapitalize="on"
+            autoCorrect="off"
+            aria-label="Ort"
           />
         </div>
-        <div className="max-w-full md:max-w-[300px] w-full">
-          <Input
-            label="Telefon"
-            wrapperClassName="space-y-1 w-full"
-            name="telefon"
-            control={form.control}
-            placeholder="176 123 123 123"
-            type="phone"
-          />
-        </div>
+
         <EinverstaendnisCheck control={form.control} name="einverstaendnis" />
+        <p className="text-xs text-theme-text">
+          <span className="text-red-500">*</span> Pflichtfelder
+        </p>
         <ReCAPTCHA
           sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
           ref={captchaRef}
+          onChange={(token) => {
+            if (token) {
+              form.setValue("token", token);
+            } else {
+              form.setValue("token", "");
+            }
+          }}
         />
+        {Boolean(captchaError) && (
+          <p className="text-red-500 text-xs italic">{captchaError}</p>
+        )}
         <div className="flex flex-row w-full flex-nowrap justify-start items-center">
-          <button className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold">
+          <button
+            className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold"
+            type="submit"
+            title="Formular absenden"
+            aria-label="Formular absenden"
+          >
             Formular absenden
           </button>
         </div>
@@ -206,8 +260,15 @@ export function Anmeldung() {
             <p className="text-theme-text font-bold">
               Vielen Dank für Ihre Nachricht!
             </p>
+            <p>
+              Wir haben Ihre Anmeldung erhalten und werden uns innerhalb von 1-2
+              Werktagen bei Ihnen melden.
+            </p>
             <button
               onClick={() => setSuccessModal(false)}
+              type="button"
+              aria-label="Schließen"
+              title="Schließen"
               className="bg-theme text-white rounded-md py-2 px-4"
             >
               Schließen
@@ -227,9 +288,15 @@ export function Anmeldung() {
             <p className="text-theme-text font-bold">
               Es ist ein Fehler aufgetreten.
             </p>
+            <p>
+              Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.
+            </p>
             <button
               onClick={() => setErrorModal(false)}
               className="bg-theme text-white rounded-md py-2 px-4"
+              type="button"
+              title="Schließen"
+              aria-label="Schließen"
             >
               Schließen
             </button>

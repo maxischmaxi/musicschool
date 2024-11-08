@@ -21,6 +21,15 @@ export enum Lehrer {
   MARTIN = "martin",
   LUKAS = "lukas",
 }
+export enum Paths {
+  HOME = "/",
+  COURSES = "/courses",
+  ABOUT = "/about",
+  CONTACT = "/contact",
+  ANMELDUNG = "/anmeldung",
+  IMPRINT = "/imprint",
+  PRIVACY = "/privacy",
+}
 
 export const apiGateway = import.meta.env.VITE_API_GATEWAY;
 export type Vertrag = {
@@ -106,6 +115,14 @@ export const available_lehrer = [
 export const phoneRegex = new RegExp(/^([0|+[0-9]{1,5})?([7-9][0-9]{9})$/);
 
 export const anmeldung = z.object({
+  token: z
+    .string({
+      required_error: "Bitte füllen Sie das Captcha aus",
+      message: "Bitte füllen Sie das Captcha aus",
+    })
+    .min(1, {
+      message: "Bitte füllen Sie das Captcha aus",
+    }),
   instrument: z
     .nativeEnum(Instrument, {
       required_error: "Bitte wähle ein Instrument aus",
@@ -135,10 +152,12 @@ export const anmeldung = z.object({
     .min(1, {
       message: "Bitte gib den Namen des Schülers an",
     }),
-  geburtsdatum: z.coerce.date({
-    message: "Bitte gib das Geburtsdatum des Schülers an",
-    required_error: "Bitte gib das Geburtsdatum des Schülers an",
-  }),
+  geburtsdatum: z
+    .string({
+      required_error: "Bitte gib das Geburtsdatum des Schülers an",
+      message: "Bitte gib das Geburtsdatum des Schülers an",
+    })
+    .date(),
   ort: z
     .string({
       required_error: "Bitte gib den Wohnort an",
