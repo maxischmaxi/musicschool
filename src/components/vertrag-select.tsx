@@ -37,11 +37,13 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
               Boolean(error) && "border-red-500 p-2",
             )}
           >
-            {Boolean(label) && (
-              <label className="text-sm font-bold" htmlFor={name}>
-                {label}
-              </label>
-            )}
+            <label
+              id="vertrag-select-label"
+              className="text-sm font-bold"
+              htmlFor={name}
+            >
+              {label}
+            </label>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {vertraege.map((vertrag, key) => (
                 <div

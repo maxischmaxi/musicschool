@@ -84,13 +84,10 @@ export function Anmeldung() {
           onChange={() => {
             form.setValue("lehrer", undefined as unknown as Lehrer);
             if (!isDesktop) {
-              const lehrerSection = document.getElementById("lehrer");
-              if (lehrerSection) {
-                lehrerSection.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                  inline: "end",
-                });
+              const label = document.getElementById("lehrer-select-label");
+              if (label) {
+                const top = label.getBoundingClientRect().top;
+                window.scrollTo({ top: top - 80, behavior: "smooth" });
               }
             }
           }}
@@ -101,13 +98,10 @@ export function Anmeldung() {
           instrument={instrument}
           onChange={() => {
             if (!isDesktop) {
-              const vertragSection = document.getElementById("vertrag");
-              if (vertragSection) {
-                vertragSection.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                  inline: "end",
-                });
+              const label = document.getElementById("vertrag-select-label");
+              if (label) {
+                const top = label.getBoundingClientRect().top;
+                window.scrollTo({ top, behavior: "smooth" });
               }
             }
           }}
@@ -118,9 +112,10 @@ export function Anmeldung() {
           label="Vertrag wählen"
           onChange={() => {
             if (!isDesktop) {
-              const emailSection = document.getElementById("email");
-              if (emailSection) {
-                emailSection.scrollIntoView({ behavior: "smooth" });
+              const emailLabel = document.querySelector("label[for=email]");
+              if (emailLabel) {
+                const top = emailLabel.getBoundingClientRect().top;
+                window.scrollTo({ top, behavior: "smooth" });
               }
             }
           }}
@@ -184,7 +179,7 @@ export function Anmeldung() {
             wrapperClassName="space-y-1 w-full"
             name="telefon"
             control={form.control}
-            placeholder="Telefonnummer"
+            placeholder="176 123 123 123"
             type="phone"
           />
         </div>
