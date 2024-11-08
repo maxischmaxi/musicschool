@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodObject, ZodString } from "zod";
 import { apiGateway } from "../lib/definitions";
