@@ -42,10 +42,16 @@ createRoot(document.getElementById("root")!).render(
         reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
         language="de"
         scriptProps={{
-          async: true,
-          defer: true,
-          appendTo: "head",
-          nonce: undefined,
+          async: true, // optional, default to false,
+          defer: true, // optional, default to false
+          appendTo: "head", // optional, default to "head", can be "head" or "body",
+          nonce: undefined, // optional, default undefined
+        }}
+        container={{
+          parameters: {
+            badge: "inline", // optional, default undefined
+            theme: "light", // optional, default undefined
+          },
         }}
       >
         <RouterProvider router={router} />
