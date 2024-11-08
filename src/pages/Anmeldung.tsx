@@ -15,6 +15,7 @@ import { VertragSelect } from "../components/vertrag-select";
 import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
 import { useRef, useState } from "react";
 import { isDesktop } from "react-device-detect";
+import { useMutation } from "@tanstack/react-query";
 
 export function Anmeldung() {
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -45,26 +46,26 @@ export function Anmeldung() {
     name: "instrument",
   });
 
-  async function submit(data: AnmeldungType) {
-    if (!data.einverstaendnis || !captchaRef.current) {
-      return;
-    }
-
-    fetch(`${apiGateway}/anmeldung`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
-        setSuccessModal(true);
-        form.reset();
+  const send = useMutation<boolean, boolean, AnmeldungType>({
+    async mutationFn(data) {
+      return await fetch(`${apiGateway}/anmeldung`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch(() => {
-        setErrorModal(true);
-      });
-  }
+        .then((res) => res.ok)
+        .catch(() => false);
+    },
+    onSuccess: () => {
+      setSuccessModal(true);
+      form.reset();
+    },
+    onError: () => {
+      setErrorModal(true);
+    },
+  });
 
   return (
     <main className="container max-w-5xl mx-auto pb-12 md:pb-24 px-8">
@@ -73,7 +74,12 @@ export function Anmeldung() {
         Fordern Sie jetzt Ihr unverbindliches Anmeldeformular an. Wir melden uns
         innerhalb von 1-2 Werktagen bei Ihnen.
       </h4>
-      <form className="w-full space-y-4" onSubmit={form.handleSubmit(submit)}>
+      <form
+        className="w-full space-y-4"
+        onSubmit={form.handleSubmit((data) => {
+          send.mutate(data);
+        })}
+      >
         <InstrumentSelect
           control={form.control}
           name="instrument"

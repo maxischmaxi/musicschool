@@ -15,6 +15,9 @@ import { Contact } from "./pages/Contact.tsx";
 import { About } from "./pages/About.tsx";
 import { Courses } from "./pages/Courses.tsx";
 import { Anmeldung } from "./pages/Anmeldung.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const client = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +36,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={client}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );
