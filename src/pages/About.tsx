@@ -69,7 +69,7 @@ export function About() {
           name="Lukas"
           image={jana}
           spitzname="Mozart"
-          items={["Klavier", "Keyboard"]}
+          items={["Keyboard", "Klavier", "Piano"]}
         />
         <Lehrer
           name="Christopher"

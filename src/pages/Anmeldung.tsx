@@ -15,6 +15,7 @@ import { EinverstaendnisCheck } from "../components/einverstaendnis-check";
 import { isDesktop } from "react-device-detect";
 import { useMutation } from "@tanstack/react-query";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import { LoaderCircle } from "lucide-react";
 
 export function Anmeldung() {
   const form = useForm<AnmeldungType>({
@@ -234,11 +235,15 @@ export function Anmeldung() {
         />
         <div className="flex flex-row w-full flex-nowrap justify-start items-center">
           <button
-            className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold"
+            className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold flex flex-row flex-nowrap items-center justify-center gap-2"
             type="submit"
             title="Formular absenden"
             aria-label="Formular absenden"
+            disabled={send.isPending}
           >
+            {send.isPending && (
+              <LoaderCircle className="animate-spin w-4 h-4" />
+            )}
             Formular absenden
           </button>
         </div>

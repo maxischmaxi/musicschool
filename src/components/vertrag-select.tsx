@@ -99,7 +99,10 @@ export function VertragSelect<T extends FieldValues>(props: Props<T>) {
                     {vertrag.aufnahmegebuehr} €
                   </span>
                   <span className="text-dark-red mt-8 text-lg mb-8 px-4 font-bold text-left w-full">
-                    Monatlicher Beitrag <br />
+                    {vertrag.preis === 450
+                      ? "Einmalige Gebühr"
+                      : "Monatlicher Beitrag"}{" "}
+                    <br />
                     {vertrag.preis} €
                   </span>
                   <AnimatePresence>
