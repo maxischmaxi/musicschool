@@ -236,9 +236,6 @@ export function Anmeldung() {
             form.setValue("token", token);
           }}
         />
-        {Boolean(captchaError) && (
-          <p className="text-red-500 text-xs italic">{captchaError}</p>
-        )}
         <div className="flex flex-row w-full flex-nowrap justify-start items-center">
           <button
             className="bg-theme text-black rounded-md px-4 py-2 text-sm font-semibold"
@@ -249,6 +246,9 @@ export function Anmeldung() {
             Formular absenden
           </button>
         </div>
+        {Boolean(captchaError) && (
+          <p className="text-red-500 text-xs italic">{captchaError}</p>
+        )}
       </form>
       {send.isSuccess && (
         <div
