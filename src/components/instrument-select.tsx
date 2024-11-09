@@ -22,7 +22,7 @@ type Props<T extends FieldValues> = {
 };
 
 function InstrumentImage({ instrument }: { instrument: Instrument }) {
-  const className = "w-full h-24 object-cover object-center rounded-xl";
+  const className = "w-full h-24 object-cover object-center overflow-hidden rounded-xl";
 
   switch (instrument) {
     case Instrument.PIANO:
@@ -72,7 +72,7 @@ function InstrumentComponent(props: InstrumentProps) {
       onClick={() => onChange(instrument)}
       type="button"
       className={classNames(
-        "will-change-transform relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl",
+        "will-change-transform relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl overflow-hidden",
         value === instrument
           ? "border-4 border-theme"
           : "border-4 border-transparent",
@@ -159,7 +159,7 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
               >
                 {field.value
                   ? String(field.value).charAt(0).toUpperCase() +
-                    String(field.value).slice(1)
+                  String(field.value).slice(1)
                   : "Instrument wählen"}
               </button>
               <AnimatePresence>
@@ -180,7 +180,7 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                       className="bg-white p-4 rounded-xl will-change-transform w-[80vw]"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="max-h-[65vh] overflow-y-auto w-full flex flex-col">
+                      <div className="max-h-[65vh] overflow-y-auto overflow-x-hidden w-full flex flex-col">
                         <div className="grid grid-cols-1 gap-4 w-full h-full">
                           {Object.values(Instrument).map((instrument) => (
                             <InstrumentComponent

@@ -17,7 +17,7 @@ type Props<T extends FieldValues> = {
 };
 
 function LehrerImage({ lehrer }: { lehrer: Lehrer }) {
-  const className = "object-cover object-center w-full h-full";
+  const className = "object-cover object-center w-full h-full rounded-xl overflow-hidden";
 
   switch (lehrer) {
     case Lehrer.JANA:
@@ -45,6 +45,8 @@ export function LehrerComponent(props: LehrerComponentProps) {
   return (
     <motion.button
       type="button"
+      title={lehrer.label}
+      aria-label={lehrer.label}
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{
@@ -168,7 +170,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                 >
                   {field.value
                     ? String(field.value).charAt(0).toUpperCase() +
-                      String(field.value).slice(1)
+                    String(field.value).slice(1)
                     : "Lehrer wählen"}
                 </button>
                 <AnimatePresence>
@@ -190,7 +192,7 @@ export function LehrerSelect<T extends FieldValues>(props: Props<T>) {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="max-h-[65vh] overflow-y-auto w-full flex flex-col">
-                          <div className="grid grid-cols-1 overflow-hidden gap-4 w-full h-full">
+                          <div className="flex flex-col flex-nowrap gap-4 w-full h-full">
                             <AnimatePresence>
                               {lehrer.map((l) => (
                                 <LehrerComponent
