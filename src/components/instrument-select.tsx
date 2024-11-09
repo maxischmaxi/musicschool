@@ -72,7 +72,7 @@ function InstrumentComponent(props: InstrumentProps) {
       onClick={() => onChange(instrument)}
       type="button"
       className={classNames(
-        "will-change-transform relative flex flex-col col-span-1 flex-nowrap justify-center items-center rounded-xl overflow-hidden",
+        "will-change-transform relative flex flex-col h-24 flex-nowrap justify-center items-center rounded-xl overflow-hidden",
         value === instrument
           ? "border-4 border-theme"
           : "border-4 border-transparent",
@@ -177,11 +177,11 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.8, opacity: 0 }}
-                      className="bg-white p-4 rounded-xl will-change-transform w-[80vw]"
+                      className="bg-white rounded-xl will-change-transform w-[80vw] pt-4"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className="max-h-[65vh] overflow-y-auto overflow-x-hidden w-full flex flex-col">
-                        <div className="grid grid-cols-1 gap-4 w-full h-full">
+                        <div className="flex flex-col flex-nowrap gap-4 w-full h-full px-4">
                           {Object.values(Instrument).map((instrument) => (
                             <InstrumentComponent
                               key={instrument}
@@ -196,7 +196,7 @@ export function InstrumentSelect<T extends FieldValues>(props: Props<T>) {
                           ))}
                         </div>
                       </div>
-                      <div className="w-full flex flex-row flex-nowrap items-center justify-end pt-4">
+                      <div className="w-full flex flex-row flex-nowrap items-center justify-end p-4">
                         <button
                           type="button"
                           className="bg-theme text-theme-text rounded-md py-2 px-4"
