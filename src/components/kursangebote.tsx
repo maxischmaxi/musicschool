@@ -24,7 +24,7 @@ function Kursangebot(props: KursangebotProps) {
   return (
     <div
       style={{ backgroundColor: props.background }}
-      className="text-theme-text py-12 md:py-24"
+      className="text-theme-text py-12"
     >
       <div
         className={classNames(
